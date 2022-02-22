@@ -7,7 +7,7 @@
     "start": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "cedric.nageri",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",

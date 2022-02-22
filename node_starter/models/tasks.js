@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 /**
+ * Mongoose is the ORM ODM ~ Object Data Mapper
  * A model is the interface to the db
  * Set up all documents we shall need */
 const taskSchema = new mongoose.Schema({
