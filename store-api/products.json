@@ -49,7 +49,7 @@
   {
     "name": "high-back bench",
     "price": 39,
-    "featured": true,
+    "featured": false,
     "company": "ikea"
   },
 
@@ -61,7 +61,7 @@
   {
     "name": "modern bookshelf",
     "price": 31,
-    "featured": true,
+    "featured": false,
     "company": "caressa"
   },
   {
@@ -92,13 +92,13 @@
   {
     "name": "utopia sofa",
     "price": 79,
-    "featured": true,
+    "featured": false,
     "company": "liddy"
   },
   {
     "name": "vase table",
     "price": 120,
-    "featured": true,
+    "featured": false,
     "company": "marcos"
   },
   {
