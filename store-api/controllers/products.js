@@ -9,14 +9,15 @@ const getAllProductsStatic = async (req,res) => {
   res.status(200).json({product})
 }
 
-
+/**All this filtering can be got from the mongoose docs */
 const getAllProducts = async (req,res) => {
   const {featured
         ,company
         ,name
         ,sort
         ,fields
-   } = req.query
+        ,numericFilters // showcase these variables in the API docs
+        } = req.query
   const queryObject = {}
   /*Better approach is setting up an object*/
   if (featured) {
@@ -30,7 +31,30 @@ const getAllProducts = async (req,res) => {
   // Query operators in mongodb docs
     queryObject.name = { $regex: name, $pattern: 'i'};
   }
-  console.log(queryObject)
+  if(numericFilters){
+    const operatorMap = {
+      /*From the user friendly to the ones understood by mongoose*/
+      '>':'$gt',
+      '>=':'$gte',
+      '=':'$eq',
+      '<':'$lt',
+      '<=':'$lte',
+    }  
+    const regEx = /\b(<|>|=|<=|>=)\b/g
+    let filters = numericFilters.replace(
+      regEx, 
+      (match) => `-${operatorMap[match]}-` 
+    )
+    const options = ['price','rating']
+    filters = filters.split(',').forEach( item => {
+      /**Destructure the array price-$gt-30 */
+      const [field,operator,value] = item.split('-')
+      if (options.includes(field)) {
+        queryObject[field] = { [operator]: Number(value) }
+      }
+    });
+  }
+  console.log(queryObject) /* for debugging */
   let result =  modelProduct.find(queryObject)
   /**
    * Adding SORT functionality
@@ -43,7 +67,7 @@ const getAllProducts = async (req,res) => {
     result = result.sort('createdAt')
   }
   if (fields){ // If it has a value!
-    // remove the commma that user puts.
+    // remove the commma that frontend puts.  
     const fieldsList = fields.split(',').join(' ')
     result = result.select(fieldsList)
   } 
@@ -51,7 +75,7 @@ const getAllProducts = async (req,res) => {
   const limit = Number(req.query.limit) || 10
   const skip = (page - 1) * limit
 
-  result = result.skip(skip).limit(limit)
+  result = result.skip(skip).limit(limit) 
   const products = await result 
   res.status(200).json({products, nbHits: products.length})
 }
