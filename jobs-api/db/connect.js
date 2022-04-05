@@ -8,5 +8,5 @@ const connectDB = (url) => {
     useUnifiedTopology: true,
   })
 }
-
+/**Special encoded characters replaced with %HEXCODE e.g. ^ - %5E */
 module.exports = connectDB
