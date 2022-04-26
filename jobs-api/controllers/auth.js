@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, Un, UnauthenticatedError } = require("../errors");
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 const register = async (req, res) => {
   /**Error checking can be in con troller or in mongoose, for more meaningful error messages. */
   /** Passwords must be stored as hashes, not as strings.
